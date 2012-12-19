@@ -25,8 +25,6 @@ from ckan.logic import (tuplize_dict,
                         parse_params,
                         flatten_to_string_key)
 from ckan.lib.i18n import get_lang
-import ckan.forms
-import ckan.authz
 import ckan.rating
 import ckan.misc
 import ckan.lib.accept as accept
@@ -114,7 +112,6 @@ class PackageController(BaseController):
 
         return pt
 
-    authorizer = ckan.authz.Authorizer()
 
     def search(self):
         from ckan.lib.search import SearchError
