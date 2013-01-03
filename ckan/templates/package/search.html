@@ -100,7 +100,6 @@
              
           <input type="text" name="subscription_name" placeholder="Name of this search" style="height:14px; width:160px" />
           <input type="hidden" name="subscription_type" value="search" />
-          <input type="hidden" name="subscription_data_type" value="dataset" />
           <input type="hidden" name="query" value="{{ c.q }}" />
           {{ form.hidden_from_list(fields=c.fields) }}
           <input type="submit" class="btn btn-success" value="Follow search" />
@@ -108,7 +107,10 @@
       {% endif %}
     </div>
   </section>
+<<<<<<< HEAD
 
+=======
+>>>>>>> subscription
   {{ h.snippet('snippets/facet_list.html', title='Tags', name='tags') }}
   {{ h.snippet('snippets/facet_list.html', title='Formats', name='res_format') }}
   {{ h.snippet('snippets/facet_list.html', title='Groups', name='groups') }}

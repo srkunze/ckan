@@ -435,3 +435,22 @@ def unfollow_group(context, data_dict):
             ckan.logic.schema.default_follow_group_schema())
     _unfollow(context, data_dict, schema,
             context['model'].UserFollowingGroup)
+
+
+def subscription_delete(context, data_dict):
+    '''Delete a subscription.
+
+    :param subscription_name: the name of the subscription
+    :type subscription_name: string
+    or
+    :param subscription_id: the id of the subscription
+    :type subscription_id: string
+    or
+    :param subscription_definition: the definition of the subscription
+    :type subscription_definition: json object
+
+    '''
+    model = context['model']
+    subscription = model.subscription.get_subscription(context, data_dict)
+    subscription.delete()
+    .repo.commit()

@@ -334,7 +334,7 @@ def make_map():
     map.connect('/tag', controller='tag', action='index')
     map.connect('/tag/{id}', controller='tag', action='read')
 
-    #subscriptions
+    # subscriptions
     map.redirect('/user/{user}/subscription/{url:.*}', '/subscription/{url:.*}')
     map.redirect('/subscription/', '/subscription')
     map.redirect('/subscriptions', '/subscription')
