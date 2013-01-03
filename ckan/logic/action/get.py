@@ -2687,6 +2687,7 @@ def subscription_item_list(context, data_dict):
         
         :rtype: dictionary
     '''
+    _check_access('subscription', context, data_dict)
     model = context['model']
     subscription = model.subscription.get_subscription(context, data_dict)
     subscription.update_item_list_when_necessary(context, data_dict.get('last_update', 1))
@@ -2712,6 +2713,7 @@ def subscription_dataset_list(context, data_dict):
 
         :rtype: dictionary
     '''
+    _check_access('subscription', context, data_dict)
     model = context['model']
     subscription = model.subscription.get_subscription(context, data_dict)
     subscription.update_item_list_when_necessary(context, data_dict.get('last_update', 1))
