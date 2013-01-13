@@ -3,18 +3,18 @@
 {% block subtitle %}{{ _("Subscriptions") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Subscriptions'), controller='subscription', action='index') }}</li>
+  <li class="active">{{ h.nav_link(_('Interests'), controller='subscription', action='index') }}</li>
 {% endblock %}
 
 
 {% block primary_content %}
   <section class="module">
-    <h2 class="module-heading">How to subscribe...</h2>
+    <h2 class="module-heading">How to follow and what it's good for...</h2>
     <div class="module-content">
-      <h3>What are subscriptions?</h3>
+      <h3>What are interests?</h3>
       <p>
-        Subscriptions are a way to express your <b>interests</b> on CKAN.
-        On the left-hand side, you can see various forms of subscriptions.
+        A way to express your <b>data needs</b> on CKAN.
+        On the left-hand side, you can see various forms of interests.
         Just click on any of them and you will get list of items that are
         relevant to you.
       </p>
@@ -23,19 +23,19 @@
         in forms of emails and on-site notifications. The latter appear
         as a bubble with a number in it.
       </p>
-      <h3>Follow</h3>
+      <h4>Datasets you've published</h4>
+      <p>
+        You have published a dataset? Good, then you will also be informed
+        of any changes other users apply to them.
+      </p>
+      <h4>Datasets, users and groups you follow</h4>
       <p>
         When you follow a person on CKAN you will receive news about this person
         in order to be up-to-date what he is doing on CKAN.
         The same goes for datasets. When you are interested in a specific
         dataset, just follow it to receive news from it.
       </p>
-      <h3>My Datasets</h3>
-      <p>
-        You have published a dataset? Good, then you will also be informed
-        of any changes other users apply to them.
-      </p>
-      <h3>Search Subscriptions</h3>
+      <h4>Searches you follow</h4>
       <p>
         You might be not interested in a specific dataset, but neverthless want
         to be up-to-date about a specific kind of datasets then just search for them
@@ -67,7 +67,7 @@
   </section>
 
   <section class="module module-narrow module-shallow">
-    <h2 class="module-heading">{{ h.nav_link(_('Search'), controller='package', action='search') }} Subscriptions</h2>
+    <h2 class="module-heading"><i class="icon-medium icon-caret-left"></i> {{ h.nav_link(_('Searches'), controller='package', action='search') }}</h2>
     {% if c.subscriptions.search|length > 0 %}
     <ul class="nav nav-simple">
       {% for subscription in c.subscriptions.search %}
@@ -78,7 +78,7 @@
     </ul>
     {% else %}
       <div class="module-content">
-        <p class="empty">No search subscriptions here. What about {{ h.nav_link(_('creating'), controller='package', action='search') }} one?</p>
+        <p class="empty">No searches here. What about {{ h.nav_link(_('creating'), controller='package', action='search') }} one?</p>
       </div>
     {% endif %}
   </section>
