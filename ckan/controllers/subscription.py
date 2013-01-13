@@ -128,9 +128,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
-        
         subscriptions = base.c.subscriptions
-        
         base.c.subscriptions = {}
         for subscription in subscriptions:
             type_ = subscription['definition']['type']
@@ -138,8 +136,7 @@ class SubscriptionController(base.BaseController):
                 base.c.subscriptions[type_].append(subscription)
             else:
                 base.c.subscriptions[type_] = [subscription]
-
-        return render('subscription/index.html')
+        return base.render('subscription/index.html')
 
 
     def show_my_datasets(self, id=None):
@@ -147,7 +144,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
-        return render('subscription/my_datasets.html')
+        return base.render('subscription/my_datasets.html')
 
 
     def show_dataset_followees(self, id=None):
@@ -157,7 +154,7 @@ class SubscriptionController(base.BaseController):
         self._setup_template_variables(context, data_dict)
         dataset_followee_list = get_action('dataset_followee_list')
         base.c.dataset_followees = dataset_followee_list(context, {'id': base.c.user_dict['id']})
-        return render('subscription/dataset_followees.html')
+        return base.render('subscription/dataset_followees.html')
 
 
     def show_user_followees(self, id=None):
@@ -167,4 +164,4 @@ class SubscriptionController(base.BaseController):
         self._setup_template_variables(context, data_dict)
         user_followee_list = get_action('user_followee_list')
         base.c.user_followees = user_followee_list(context, {'id': base.c.user_dict['id']})
-        return render('subscription/user_followees.html')
+        return base.render('subscription/user_followees.html')
