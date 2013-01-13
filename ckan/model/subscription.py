@@ -82,7 +82,7 @@ class Subscription(domain_object.DomainObject):
                 'rows': 50,
                 'start': 0,
                 'sort': 'metadata_modified desc',
-                'extras': ''
+                'extras': self.definition['extras']
             }
             results = get.package_search(context, search_dict)['results']
             data_list = [{'id': result['id'], 'modified': result['metadata_modified']} for result in results]
@@ -299,11 +299,10 @@ def is_subscription_equal_definition(subscription, definition):
     if definition['type'] == 'search':
         if subscription.definition['query'] != definition['query']:
             return False
-        if set(subscription.definition['filters']) ^ set(definition['filters']):
+        if _hash(subscription.definition['filters']) != _hash(definition['filters']):
             return False
-        for filter_name, filter_value_list in subscription.definition['filters'].iteritems():
-            if set(filter_value_list) ^ set(definition['filters'][filter_name]):
-                return False
+        if _hash(subscription.definition['extras']) != _hash(definition['extras']):
+            return False
         return True
     else:
         for plugin in p.PluginImplementations(p.ISubscription):

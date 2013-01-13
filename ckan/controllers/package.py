@@ -194,13 +194,11 @@ class PackageController(BaseController):
             # a list of values eg {'tags':['tag1', 'tag2']}
             c.fields_grouped = {}
             search_extras = {}
-            fq = ''
             for (param, value) in request.params.items():
                 if param not in ['q', 'page', 'sort'] \
                         and len(value) and not param.startswith('_'):
                     if not param.startswith('ext_'):
                         c.fields.append((param, value))
-                        fq += ' %s:"%s"' % (param, value)
                         if param not in c.fields_grouped:
                             c.fields_grouped[param] = [value]
                         else:
@@ -212,8 +210,21 @@ class PackageController(BaseController):
                        'user': c.user or c.author, 'for_view': True}
 
             data_dict = {
+                'subscription_definition':{
+                    'query': q,
+                    'type': 'search',
+                    'filters': c.fields_grouped,
+                    'extras': search_extras,
+                },
+            }
+            try:
+                c.subscription = get_action('subscription_show')(context, data_dict)
+            except NotFound:
+                pass
+
+            data_dict = {
                 'q': q,
-                'fq': fq,
+                'filters': c.fields_grouped,
                 'facet.field': g.facets,
                 'rows': limit,
                 'start': (page - 1) * limit,
