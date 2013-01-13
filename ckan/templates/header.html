@@ -66,6 +66,11 @@
                   </a>
                 </li>
                 <li>
+                  <a href="{{ h.url_for(controller='subscription', action='index') }}">
+                    <i class="icon-rss"></i> {{ _('Interests') }}
+                  </a>
+                </li>
+                <li>
                   <a href="{{ h.url_for(controller='user', action='read', id=c.userobj.name) }}">
                     <i class="icon-user"></i>
                     {{ _('My Profile') }}
