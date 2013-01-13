@@ -343,6 +343,7 @@ def make_map():
         m.connect('/subscription/my_datasets', action='show_my_datasets', conditions=GET)
         m.connect('/subscription/dataset_followees', action='show_dataset_followees', conditions=GET)
         m.connect('/subscription/user_followees', action='show_user_followees', conditions=GET)
+        m.connect('/subscription/group_followees', action='show_group_followees', conditions=GET)
         m.connect('/subscription/{subscription_name}', action='show', conditions=GET)
         m.connect('/subscription/{subscription_name}/delete', action='delete', conditions=POST)
         m.connect('/subscription', action='create', conditions=POST)

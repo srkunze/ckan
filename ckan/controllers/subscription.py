@@ -164,6 +164,20 @@ class SubscriptionController(base.BaseController):
         return base.render('subscription/user_followees.html')
 
 
+    def show_group_followees(self, id=None):
+        context = {'model': model, 'session': model.Session,
+                   'user': base.c.user or base.c.author, 'for_view': True}
+        data_dict = {'id': id, 'user_obj': base.c.userobj}
+        self._setup_template_variables(context, data_dict)
+        self._prepare_subscription_list()
+        group_followee_list = logic.get_action('group_followee_list')
+        base.c.group_followees = group_followee_list(context, {'id': base.c.user_dict['id']})
+        for group in base.c.group_followees:
+            del group['users']
+            group['packages'] = len(group['packages'])
+        return base.render('subscription/group_followees.html')
+
+
     def _prepare_subscription_list(self):
         subscriptions = base.c.subscriptions
         base.c.subscriptions = {}
