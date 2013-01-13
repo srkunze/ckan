@@ -129,14 +129,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
-        subscriptions = base.c.subscriptions
-        base.c.subscriptions = {}
-        for subscription in subscriptions:
-            type_ = subscription['definition']['type']
-            if type_ in base.c.subscriptions:
-                base.c.subscriptions[type_].append(subscription)
-            else:
-                base.c.subscriptions[type_] = [subscription]
+        self._prepare_subscription_list()
         return base.render('subscription/index.html')
 
 
@@ -145,6 +138,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
+        self._prepare_subscription_list()
         return base.render('subscription/my_datasets.html')
 
 
@@ -153,6 +147,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
+        self._prepare_subscription_list()
         dataset_followee_list = logic.get_action('dataset_followee_list')
         base.c.dataset_followees = dataset_followee_list(context, {'id': base.c.user_dict['id']})
         return base.render('subscription/dataset_followees.html')
@@ -163,6 +158,18 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
+        self._prepare_subscription_list()
         user_followee_list = logic.get_action('user_followee_list')
         base.c.user_followees = user_followee_list(context, {'id': base.c.user_dict['id']})
         return base.render('subscription/user_followees.html')
+
+
+    def _prepare_subscription_list(self):
+        subscriptions = base.c.subscriptions
+        base.c.subscriptions = {}
+        for subscription in subscriptions:
+            type_ = subscription['definition']['type']
+            if type_ in base.c.subscriptions:
+                base.c.subscriptions[type_].append(subscription)
+            else:
+                base.c.subscriptions[type_] = [subscription]
