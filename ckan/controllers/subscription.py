@@ -152,7 +152,7 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
-        dataset_followee_list = get_action('dataset_followee_list')
+        dataset_followee_list = logic.get_action('dataset_followee_list')
         base.c.dataset_followees = dataset_followee_list(context, {'id': base.c.user_dict['id']})
         return base.render('subscription/dataset_followees.html')
 
@@ -162,6 +162,6 @@ class SubscriptionController(base.BaseController):
                    'user': base.c.user or base.c.author, 'for_view': True}
         data_dict = {'id': id, 'user_obj': base.c.userobj}
         self._setup_template_variables(context, data_dict)
-        user_followee_list = get_action('user_followee_list')
+        user_followee_list = logic.get_action('user_followee_list')
         base.c.user_followees = user_followee_list(context, {'id': base.c.user_dict['id']})
         return base.render('subscription/user_followees.html')
