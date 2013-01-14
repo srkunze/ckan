@@ -18,7 +18,7 @@ Example:
 {% set title = package.title or package.name %}
 {% set notes = h.markdown_extract(package.notes, extract_length=truncate) %}
 
-<li class="{{ item_class or "dataset-item" }}">
+<li class="{{ item_class or "dataset-item" }} {{ package.get('flag', '') }}">
   <div class="dataset-content">
     <h3 class="dataset-heading">
       {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
@@ -26,6 +26,11 @@ Example:
         <span class="label label-info">{{ _('Draft') }}</span>
       {% elif package.get(state, '').startswith('deleted') %}
         <span class="label label-important">{{ _('Deleted') }}</span>
+      {% endif %}
+      {% if package.get('flag', '').startswith('added') %}
+        <span class="label label-info">{{ _('New') }}</span>
+      {% elif package.get('flag', '').startswith('changed') %}
+        <span class="label label-important">{{ _('Changed') }}</span>
       {% endif %}
       {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
     </h3>
