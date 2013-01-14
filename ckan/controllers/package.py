@@ -239,12 +239,11 @@ class PackageController(BaseController):
             if c.subscription:
                 data_dict = {'subscription_id': c.subscription['id'], 'last_update': 1}
                 item_list = get_action('subscription_item_list')(context, data_dict)
-                
+                item_dict = dict([(item['key'], item) for item in item_list])
                 for result in query['results']:
-                    for item in item_list:
-                        if result['id'] == item['data']['id']:
-                            result['flag'] = item['flag']
-                            break
+                    item = item_dict.get(result['id'], None)
+                    if item:
+                        result['flag'] = item['flag']
                 get_action('subscription_mark_changes_as_seen')(context, data_dict)
 
             c.page = h.Page(
