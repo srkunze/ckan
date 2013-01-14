@@ -217,8 +217,10 @@ class PackageController(BaseController):
                     'extras': search_extras,
                 },
             }
+            updates = False
             try:
                 c.subscription = get_action('subscription_show')(context, data_dict)
+                updates = c.subscription['updates_count']
             except NotFound:
                 pass
 
@@ -228,7 +230,7 @@ class PackageController(BaseController):
                 'facet.field': g.facets,
                 'rows': limit,
                 'start': (page - 1) * limit,
-                'sort': 'metadata_modified desc' if c.subscription['updates_count'] else sort_by,
+                'sort': 'metadata_modified desc' if updates else sort_by,
                 'extras': search_extras
             }
 
