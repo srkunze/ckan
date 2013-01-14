@@ -228,7 +228,7 @@ class PackageController(BaseController):
                 'facet.field': g.facets,
                 'rows': limit,
                 'start': (page - 1) * limit,
-                'sort': 'metadata_modified desc' if c.subscription['updates_count'] else sort_by
+                'sort': 'metadata_modified desc' if c.subscription['updates_count'] else sort_by,
                 'extras': search_extras
             }
 
