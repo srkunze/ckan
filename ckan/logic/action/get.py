@@ -2637,6 +2637,7 @@ def subscription_show(context, data_dict):
     subscription = model.subscription.get_subscription(user.id, data_dict)
     if not subscription:
         raise NotFound
+    subscription.update_item_list_when_necessary(context, data_dict.get('last_update', 1))
 
     return model_dictize.subscription_dictize(subscription, context)
 

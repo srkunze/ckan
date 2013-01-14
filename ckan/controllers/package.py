@@ -228,11 +228,21 @@ class PackageController(BaseController):
                 'facet.field': g.facets,
                 'rows': limit,
                 'start': (page - 1) * limit,
-                'sort': sort_by,
+                'sort': 'metadata_modified desc' if c.subscription['updates_count'] else sort_by
                 'extras': search_extras
             }
 
             query = get_action('package_search')(context, data_dict)
+
+            if c.subscription:
+                data_dict = {'subscription_id': c.subscription['id'], 'last_update': 1}
+                item_list = get_action('subscription_item_list')(context, data_dict)
+                for result in query['results']:
+                    for item in item_list:
+                        if result['id'] == item['data']['id']:
+                            result['flag'] = item['flag']
+                            break
+                get_action('subscription_mark_changes_as_seen')(context, data_dict)
 
             c.page = h.Page(
                 collection=query['results'],
