@@ -217,10 +217,10 @@ class PackageController(BaseController):
                     'extras': search_extras,
                 },
             }
-            updates = False
             try:
                 c.subscription = get_action('subscription_show')(context, data_dict)
-                updates = c.subscription['updates_count']
+                sort_by = 'metadata_modified desc' if c.subscription['updates_count'] else sort_by
+                c.sort_by_selected = sort_by
             except NotFound:
                 pass
 
@@ -230,7 +230,7 @@ class PackageController(BaseController):
                 'facet.field': g.facets,
                 'rows': limit,
                 'start': (page - 1) * limit,
-                'sort': 'metadata_modified desc' if updates else sort_by,
+                'sort':  sort_by,
                 'extras': search_extras
             }
 
@@ -239,11 +239,11 @@ class PackageController(BaseController):
             if c.subscription:
                 data_dict = {'subscription_id': c.subscription['id'], 'last_update': 1}
                 item_list = get_action('subscription_item_list')(context, data_dict)
+                item_dict = dict([(item['key'], item) for item in item_list])
                 for result in query['results']:
-                    for item in item_list:
-                        if result['id'] == item['data']['id']:
-                            result['flag'] = item['flag']
-                            break
+                    item = item_dict.get(result['id'], None)
+                    if item:
+                        result['flag'] = item['flag']
                 get_action('subscription_mark_changes_as_seen')(context, data_dict)
 
             c.page = h.Page(
